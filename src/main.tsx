@@ -1,10 +1,15 @@
 import { useContextKey } from '@kevisual/store/config';
 import { Page } from '@kevisual/store/page';
 import { QueryRouterServer } from '@kevisual/router';
+import { createRoot } from 'react-dom/client';
+import { List } from './app/List';
 export const render = ({ renderRoot }) => {
-  renderRoot.innerHTML = `
-    <h1>Hello, World!</h1>
-  `;
+  // renderRoot.innerHTML = `
+  //   <h1>Hello, World!</h1>
+  // `;
+  const root = createRoot(renderRoot);
+  // @ts-ignore
+  root.render(<List />);
 };
 
 const page = useContextKey('page', () => {
@@ -46,5 +51,6 @@ if (app) {
       render({
         renderRoot,
       });
-    }).addTo(app);
+    })
+    .addTo(app);
 }

@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react'
 // import basicSsl from '@vitejs/plugin-basic-ssl';
 import dayjs from 'dayjs';
 import path from 'path';
@@ -8,6 +9,7 @@ const BUILD_TIME = dayjs().format('YYYY-MM-DD HH:mm:ss');
 console.log('process', isDev, process.env.WEB_DEV)
 export default defineConfig({
   // plugins: [basicSsl()],
+  plugins: [react()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -18,7 +20,7 @@ export default defineConfig({
     BUILD_TIME: JSON.stringify(BUILD_TIME),
   },
   optimizeDeps: {
-    exclude: ['react'], // 排除 react 和 react-dom 以避免打包
+    // exclude: ['react'], // 排除 react 和 react-dom 以避免打包
   },
   // esbuild: {
   //   jsxFactory: 'h',
