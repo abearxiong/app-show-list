@@ -1,13 +1,13 @@
 import { defineConfig } from 'vite';
-import basicSsl from '@vitejs/plugin-basic-ssl';
+// import basicSsl from '@vitejs/plugin-basic-ssl';
 import dayjs from 'dayjs';
 import path from 'path';
 
 const isDev = process.env.NODE_ENV === 'development';
 const BUILD_TIME = dayjs().format('YYYY-MM-DD HH:mm:ss');
-
+console.log('process', isDev, process.env.WEB_DEV)
 export default defineConfig({
-  plugins: [basicSsl()],
+  // plugins: [basicSsl()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
