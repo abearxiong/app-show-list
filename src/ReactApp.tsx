@@ -1,10 +1,15 @@
-import { createRoot } from 'react-dom/client';
-export const App = () => {
+import { BrowserRouter, Route, Routes } from 'react-router';
+import { List } from './pages/List';
+import { LayoutMain } from './layouts';
+
+export const ReactApp = () => {
   return (
-    <div className='flex justify-center items-center h-screen bg-gray-200'>
-      <h1 className='text-4xl font-bold text-gray-800'>Hello Vite + React!</h1>
-    </div>
+    <BrowserRouter basename='/system/app-show'>
+      <Routes>
+        <Route element={<LayoutMain />}>
+          <Route path='/show-home' element={<List />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
-
-createRoot(document.getElementById('root')!).render(<App />);

@@ -1,29 +1,41 @@
 import { useContextKey } from '@kevisual/store/config';
-import { Page } from '@kevisual/store/page';
 import { QueryRouterServer } from '@kevisual/router';
 import { createRoot } from 'react-dom/client';
-import { List } from './app/List';
+import { List } from './pages/List';
+import { List as UploadAppList } from './pages/upload-apps/List';
+import { page } from './app';
+
+import '@build/tailwind/main.css';
+// import './tailwind.css';
+
+export const initRoot = (renderRoot?: any) => {
+  return useContextKey('root', () => {
+    if (!renderRoot) {
+      console.error('renderRoot is required');
+    }
+    return createRoot(renderRoot);
+  });
+};
 export const render = ({ renderRoot }) => {
-  // renderRoot.innerHTML = `
-  //   <h1>Hello, World!</h1>
-  // `;
-  const root = createRoot(renderRoot);
-  // @ts-ignore
+  const root = initRoot(renderRoot);
   root.render(<List />);
 };
 
-const page = useContextKey('page', () => {
-  return new Page({
-    basename: '',
-  });
-});
-
 if (page) {
-  page.addPage('/app-template', 'home');
+  initRoot(document.getElementById('ai-root'));
+  page.addPage('/', 'home');
+  page.addPage('/local-apps', 'local-apps');
+  page.subscribe('local-apps', () => {
+    const root = initRoot();
+    root.render(<List />);
+  });
+  page.addPage('/upload-apps', 'upload-apps');
+  page.subscribe('upload-apps', () => {
+    const root = initRoot();
+    root.render(<UploadAppList />);
+  });
   page.subscribe('home', () => {
-    render({
-      renderRoot: document.getElementById('ai-root'),
-    });
+    page.navigate('/local-apps');
   });
 }
 
@@ -34,7 +46,7 @@ const app = useContextKey('app', () => {
 if (app) {
   app
     .route({
-      path: 'app-template',
+      path: 'show-home',
       key: 'render',
     })
     .define(async (ctx) => {

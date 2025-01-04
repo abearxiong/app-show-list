@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { query } from '@/modules/query';
+import { message } from '@/modules/message';
 
 type Store = {
   list: any[];
@@ -15,8 +16,11 @@ type Store = {
   getData: (id: number) => Promise<any>;
   updateData: (data: any, opts?: { refresh?: boolean }) => Promise<any>;
   deleteData: (id: number, opts?: { refresh?: boolean }) => Promise<any>;
+  showModal: boolean;
+  setShowModal: (showModal: boolean) => void;
+  pubApp: (data: any) => Promise<any>;
 };
-export const useStore = create<Store>((set, get) => ({
+export const useAppUploadStore = create<Store>((set, get) => ({
   list: [],
   setList: (list) => set({ list }),
   data: null,
@@ -27,7 +31,7 @@ export const useStore = create<Store>((set, get) => ({
   setFormData: (formData) => set({ formData }),
   getList: async () => {
     set({ loading: true });
-    const res = await query.post({ path: 'local-apps', key: 'list' });
+    const res = await query.post({ path: 'micro-app-upload', key: 'list' });
     set({ loading: false });
     if (res.code === 200) {
       set({ list: res.data });
@@ -40,7 +44,7 @@ export const useStore = create<Store>((set, get) => ({
   getData: async (id) => {
     set({ loading: true });
     const res = await query.post({
-      path: 'local-apps',
+      path: 'micro-app-upload',
       key: 'get',
       id,
     });
@@ -54,7 +58,7 @@ export const useStore = create<Store>((set, get) => ({
   updateData: async (data, opts = { refresh: true }) => {
     set({ loading: true });
     const res = await query.post({
-      path: 'local-apps',
+      path: 'micro-app-upload',
       key: 'update',
       data,
     });
@@ -70,9 +74,9 @@ export const useStore = create<Store>((set, get) => ({
   deleteData: async (id, opts = { refresh: true }) => {
     set({ loading: true });
     const res = await query.post({
-      path: 'local-apps',
+      path: 'micro-app-upload',
       key: 'delete',
-      appKey: id,
+      id,
     });
     set({ loading: false });
     if (res.code === 200) {
@@ -82,5 +86,22 @@ export const useStore = create<Store>((set, get) => ({
       await get().getList();
     }
     return res;
+  },
+  showModal: false,
+  setShowModal: (showModal) => set({ showModal }),
+  pubApp: async (data) => {
+    set({ loading: true });
+    const res = await query.post({
+      path: 'micro-app',
+      key: 'deploy',
+      data,
+    });
+    set({ loading: false });
+    if (res.code === 200) {
+      message.success('发布成功');
+      set({ data: null });
+    } else {
+      message.error(res.message || '发布失败');
+    }
   },
 }));

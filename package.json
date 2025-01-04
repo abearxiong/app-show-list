@@ -1,5 +1,5 @@
 {
-  "name": "app-template",
+  "name": "app-show",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -7,8 +7,8 @@
     "dev": "cross-env WEB_DEV=true vite",
     "build": "vite build",
     "preview": "vite preview",
-    "prepub": "envision switchOrg user",
-    "pub": "envision deploy ./dist -k app-template -v 0.0.1"
+    "prepub": "envision switchOrg system",
+    "pub": "envision deploy ./dist -k app-show -v 0.0.1"
   },
   "keywords": [],
   "author": "abearxiong <xiongxiao@xiongxiao.me>",
@@ -19,23 +19,33 @@
     "@emotion/styled": "^11.14.0",
     "@kevisual/query": "0.0.7-alpha.3",
     "@kevisual/system-ui": "^0.0.3",
+    "@mui/icons-material": "^6.3.0",
     "@mui/material": "^6.3.0",
+    "autoprefixer": "^10.4.20",
+    "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "lodash-es": "^4.17.21",
     "react-dom": "^19.0.0",
+    "react-router": "^7.1.1",
+    "react-router-dom": "^7.1.1",
+    "tailwindcss": "^3.4.17",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
+    "@build/tailwind": "1.0.2-alpha-2",
     "@emotion/css": "^11.13.5",
     "@kevisual/router": "0.0.6-alpha-4",
     "@kevisual/store": "0.0.1-alpha.9",
     "@kevisual/types": "^0.0.5",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/typography": "^0.5.15",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
     "@vitejs/plugin-basic-ssl": "^1.2.0",
     "@vitejs/plugin-react": "^4.3.4",
     "cross-env": "^7.0.3",
     "react": "^19.0.0",
+    "tailwindcss-animate": "^1.0.7",
     "vite": "^6.0.6"
   }
 }
